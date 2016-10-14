@@ -1,0 +1,12 @@
+language: node_js
+sudo: required
+services:
+  - rabbitmq
+deploy:
+  provider: npm
+  email: contact@ajouve.com
+  api_key:
+    secure: o7hYOXYxDOpXV3hKLzkdOcXd9mpIGmPRQGa4wNraf2fi+aHVupHcGSxRdhzscMzUYCqf3R2iUHJmQ3kNr/rJNveoYn2hs6FYEgpTXNYb/tqIGfRozdedmugZgIiHRCTEs0EITLVvEhxsQ65AabKqwWJOxnas50s4VGGtG+OHA1O0tp9jkguIJcG3Ga/TXIj1kg5LEJ0Njc/JY8iwzmFQhlOWpcI2jxsKjsSELyT4dN4DOh8PY0mHvHtHqliELd8Q56T+v8F7oVaNWhe5RDF4Wnigp4H6TSOT1TNfg/QFbcCux/0K6ylhVPc3wm1LzHIa+PZhQ6maIPvjG2gv8yZNPY4TSBtIhDX7R4H+gSfJDbJNT0j5gbW4JBMBoVQkJpXF1avg+GRH/YXFFK9wm2On1mEPDFEO3wnB0tzerFgv5EjRviaipYFMBgs4AnwDkio+paOgGJV2c337xXkcHYXHsQdfV6bSiVV4uuJQ2/433ybtHOc69/BbyACSsNeUS8OT2sjt5r6mWnjoqFv0qS0y81Y00Wm4Otty1ZQYd2+DqDc4UApCid9waKDWYGyaxdlDzrwboMpVUpzIxvukTDl77o6SywUGPylozg6e9uA3unmXht59TLtX8t49KEMvSyPEkbjikDgROESiZ5wPfYboteuyAh8eORPK+MzRGA8ks9M=
+  on:
+    tags: true
+    repo: ajouve/node-amqp-lib
