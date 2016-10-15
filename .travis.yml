@@ -1,15 +1,15 @@
 language: node_js
 node_js:
-  - "6"
-  - "6.1"
+  - '6'
+  - '6.1'
 sudo: required
 services:
   - rabbitmq
 deploy:
   provider: npm
   email: contact@ajouve.com
-  api_key:
-    secure: o7hYOXYxDOpXV3hKLzkdOcXd9mpIGmPRQGa4wNraf2fi+aHVupHcGSxRdhzscMzUYCqf3R2iUHJmQ3kNr/rJNveoYn2hs6FYEgpTXNYb/tqIGfRozdedmugZgIiHRCTEs0EITLVvEhxsQ65AabKqwWJOxnas50s4VGGtG+OHA1O0tp9jkguIJcG3Ga/TXIj1kg5LEJ0Njc/JY8iwzmFQhlOWpcI2jxsKjsSELyT4dN4DOh8PY0mHvHtHqliELd8Q56T+v8F7oVaNWhe5RDF4Wnigp4H6TSOT1TNfg/QFbcCux/0K6ylhVPc3wm1LzHIa+PZhQ6maIPvjG2gv8yZNPY4TSBtIhDX7R4H+gSfJDbJNT0j5gbW4JBMBoVQkJpXF1avg+GRH/YXFFK9wm2On1mEPDFEO3wnB0tzerFgv5EjRviaipYFMBgs4AnwDkio+paOgGJV2c337xXkcHYXHsQdfV6bSiVV4uuJQ2/433ybtHOc69/BbyACSsNeUS8OT2sjt5r6mWnjoqFv0qS0y81Y00Wm4Otty1ZQYd2+DqDc4UApCid9waKDWYGyaxdlDzrwboMpVUpzIxvukTDl77o6SywUGPylozg6e9uA3unmXht59TLtX8t49KEMvSyPEkbjikDgROESiZ5wPfYboteuyAh8eORPK+MzRGA8ks9M=
   on:
     tags: true
     repo: ajouve/node-amqp-lib
+  api_key:
+    secure: VLpdBnPSBrVYcoHAqtfavClfVbvfmK6qQvD5AatumzR3060eZ+AwklxZt/HM1MCfyBzAhH77UWDWglcrvFnqwRDrB8vnAP4Nb2x6LcCo+Ui+oda7i0oBfdDbLsRYsXT8hAQ1Nh8URDn/E6DxlTQaWuR2rsvGEbVS0hm/EHGsJX5Z9pPzQeGOkVqPGCsTZu+onboRaMkZxPjA/z16fdaF1sKaoU3J0Tye68SttOFVxNN7VsklDDTTya33+TzVT+sZYlyem2CGZRPqG+ZCjOhDjVusNlMek4j1xityAgR5q+5dBpkEU8B2zlJZQ0FPGKkpELdKgRdGwASItubfit1W/gjo0e/Nuo9Zr+FZ8PMuQnPxHjJEQcAdf8KjYIWdLB1/dBQYuJMJP55ghyGL2PjNJPLDSEGv6VvuYk+jNfy7mMsmmiWooSp3NVhcMk5y0v9RVQfzshseBcxmof4trtCszxEDE/10lsswvY2J55ixYab/tlzfHrSt0RDX/Z81cxrh1iZqoME56JlMKdSsMmkIGmCwD1S68W+ZmbxvUWXlxV6nXF/bWzyIFy1xEwlay/Dcipi+UPIE6iIlnKf+pWS9OxrHE9XFcAE1pJLfwFwkMPckTuAtRhnFWZ+AHMjq4qKIHp+tymevTYrfW5NhRdPD2y2DpCtZ//p2ahUeUZbyLAc=
