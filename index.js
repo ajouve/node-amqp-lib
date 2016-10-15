@@ -14,12 +14,13 @@ module.exports = class NodeAMQPLib {
             contentType: 'application/json'
         });
 
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             this._getExchanges()
                 .then(exchanges => {
                     exchanges.default.publish(routingKey, message, options);
                     resolve(true);
                 })
+                .catch(reject);
         });
     }
 
@@ -111,7 +112,7 @@ module.exports = class NodeAMQPLib {
                 password: this.config.password
             });
             this.connection.on('ready', () => resolve(this.connection));
-            this.connection.on('error', (err) => console.log(err));
+            this.connection.on('error', reject);
         })
     }
 
@@ -135,7 +136,7 @@ module.exports = class NodeAMQPLib {
                                         return cb();
                                     }
                                 })
-                                .on('error', (err) => console.log(err))
+                                .on('error', reject)
                         }, err => {
                             if (err) return reject(err);
                             resolve(this.exchanges);
