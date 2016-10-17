@@ -41,11 +41,11 @@ module.exports = class NodeAMQPLib {
                             this.connection.queue(queueName, options, (queue) => {
                                 queue.bind(exchanges.default, routingKey, () => {
                                     queue.subscribe({
-                                            ack: true,
-                                            prefetchCount: 5
-                                        }, (message, headers, deliveryInfo, messageObject) => {
-                                            action(message, headers, deliveryInfo, messageObject);
-                                        })
+                                        ack: true,
+                                        prefetchCount: 5
+                                    }, (message, headers, deliveryInfo, messageObject) => {
+                                        action(message, headers, deliveryInfo, messageObject);
+                                    })
                                         .addCallback((ok) => {
                                             this.queues.push({
                                                 name: queueName,
@@ -71,7 +71,7 @@ module.exports = class NodeAMQPLib {
                         if (err) return reject(err);
                         resolve();
                     });
-                });
+                }).catch(reject);
         });
     }
 
@@ -118,7 +118,8 @@ module.exports = class NodeAMQPLib {
 
     _getExchanges() {
         return new Promise((resolve, reject) => {
-            this._getConnection()
+            if (!_.isEmpty(this.exchanges)) return resolve(this.exchanges);
+                this._getConnection()
                 .then(connection => {
                     this.exchanges = {};
                     async.each(
@@ -126,10 +127,10 @@ module.exports = class NodeAMQPLib {
                         (name, cb) => {
                             let oppened = false;
                             this.exchanges[name] = connection.exchange(name, {
-                                    type: 'topic',
-                                    autoDelete: false,
-                                    durable: true
-                                })
+                                type: 'topic',
+                                autoDelete: false,
+                                durable: true
+                            })
                                 .on('open', () => {
                                     if (!oppened) {
                                         oppened = true;
@@ -142,6 +143,7 @@ module.exports = class NodeAMQPLib {
                             resolve(this.exchanges);
                         });
                 })
+                .catch(reject)
         })
     }
 }
