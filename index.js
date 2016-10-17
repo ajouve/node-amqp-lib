@@ -42,7 +42,7 @@ module.exports = class NodeAMQPLib {
                                 queue.bind(exchanges.default, routingKey, () => {
                                     queue.subscribe({
                                         ack: true,
-                                        prefetchCount: 5
+                                        prefetchCount: 1
                                     }, (message, headers, deliveryInfo, messageObject) => {
                                         action(message, headers, deliveryInfo, messageObject);
                                     })
