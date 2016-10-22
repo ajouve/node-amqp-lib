@@ -14,10 +14,25 @@ describe('Test', function(){
         const nodeAMQPLib = new NodeAMQPLib(config)
         nodeAMQPLib.subscribe('testQueue', 'test.key', (message, headers, deliveryInfo, messageObject) => {
             assert.deepEqual({foo: 'bar'}, message);
-            messageObject.acknowledge(true);
-            nodeAMQPLib.destroyQueue('testQueue');
-            done();
+            messageObject.acknowledge();
+            nodeAMQPLib.destroy().then(() => done());
         })
+            .then(() => nodeAMQPLib.publish('test.key', {foo: 'bar'}))
+            .then(result => assert(result))
+            .catch(err => assert.ifError(err));
+    })
+
+    it('Should send the message in dead letter', function(done) {
+        const nodeAMQPLib = new NodeAMQPLib(config)
+        nodeAMQPLib.subscribe('testQueue', 'test.key', (message, headers, deliveryInfo, messageObject) => {
+            assert.deepEqual({foo: 'bar'}, message);
+            messageObject.reject();
+        })
+            .then(() => nodeAMQPLib.subscribeDeadLetter('testQueue', (message, headers, deliveryInfo, messageObject) => {
+                assert.deepEqual({foo: 'bar'}, message);
+                messageObject.acknowledge();
+                nodeAMQPLib.destroy().then(() => done());
+            }))
             .then(() => nodeAMQPLib.publish('test.key', {foo: 'bar'}))
             .then(result => assert(result))
             .catch(err => assert.ifError(err));

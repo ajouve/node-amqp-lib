@@ -42,10 +42,8 @@ module.exports = class NodeAMQPLib {
                                 queue.bind(exchanges.default, routingKey, () => {
                                     queue.subscribe({
                                         ack: true,
-                                        prefetchCount: 1
-                                    }, (message, headers, deliveryInfo, messageObject) => {
-                                        action(message, headers, deliveryInfo, messageObject);
-                                    })
+                                        prefetchCount: 5
+                                    }, action)
                                         .addCallback((ok) => {
                                             this.queues.push({
                                                 name: queueName,
@@ -75,9 +73,34 @@ module.exports = class NodeAMQPLib {
         });
     }
 
+    subscribeDeadLetter(queueName, action) {
+        let currentQueue;
+        this.queues.forEach(queue => {
+            if (queue.name === queueName) currentQueue = queue;
+        })
+
+        return new Promise((resolve, reject) => {
+            if (!currentQueue) return reject(new Error(`Dead lettre queue not found for ${queueName}`));
+
+            currentQueue.deadLetter.subscribe({ack: true}, action)
+                .addCallback(ok => {
+                    currentQueue.deadLetterconsumerTag = ok.consumerTag;
+                    resolve();
+                })
+
+        })
+    }
+
+
     unsubscribe(queueName) {
         this.queues.forEach(queue => {
             if (queueName == queue.name) queue.queue.unsubscribe(queue.consumerTag);
+        })
+    }
+
+    unsubscribeDeadLetter(queueName) {
+        this.queues.forEach(queue => {
+            if (queueName == queue.name) queue.deadLetter.unsubscribe(queue.deadLetterconsumerTag);
         })
     }
 
@@ -88,6 +111,14 @@ module.exports = class NodeAMQPLib {
                 queue.deadLetter.destroy();
             }
         })
+    }
+
+    destroy() {
+        this.queues.forEach(queue => {
+            queue.queue.destroy();
+            queue.deadLetter.destroy();
+        })
+        return new Promise(resolve => setTimeout(resolve, 100))
     }
 
     close() {
